@@ -1,0 +1,185 @@
+﻿@model NaseehaStore.Models.ViewModels.EditOrderViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Order</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .edit-order-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .form-group span.text-danger {
+            color: #dc3545;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .form-group p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        button.btn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        button.btn:hover {
+            background-color: #0056b3;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        form .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            form {
+                display:block;
+            }
+
+            button.btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-order-container">
+        <h1>Edit Order</h1>
+
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="OrderId" />
+            <input type="hidden" asp-for="CourseId" value="@Model.CourseId" />
+
+            <!-- Course Name -->
+            <div class="form-group">
+                <label asp-for="CourseName">Course Name</label>
+                <input type="hidden" asp-for="CourseName" value="@Model.CourseName" />
+                <p>@Model.CourseName</p>
+            </div>
+
+            <!-- Price -->
+            <div class="form-group">
+                <label asp-for="Price">Price</label>
+                <input asp-for="Price" class="form-control" required />
+            </div>
+
+            <!-- Student Full Name -->
+            <div class="form-group">
+                <label asp-for="Student.FullName">Full Name</label>
+                <input asp-for="Student.FullName" class="form-control" required />
+                <span asp-validation-for="Student.FullName" class="text-danger"></span>
+            </div>
+
+            <!-- Student Main Phone -->
+            <div class="form-group">
+                <label asp-for="Student.MainPhone">Main Phone</label>
+                <input asp-for="Student.MainPhone" class="form-control" required />
+                <span asp-validation-for="Student.MainPhone" class="text-danger"></span>
+            </div>
+
+            <!-- Student Second Phone -->
+            <div class="form-group">
+                <label asp-for="Student.SecondPhone">Second Phone</label>
+                <input asp-for="Student.SecondPhone" class="form-control" />
+            </div>
+
+            <!-- City -->
+            <div class="form-group">
+                <label asp-for="Student.City">City</label>
+                <select asp-for="Student.City" class="form-control" required>
+                    <option value="">-- اختر المدينة --</option>
+                    @foreach (var city in ViewBag.Cities as List<string>)
+                    {
+                        <option value="@city">@city</option>
+                    }
+                </select>
+                <span asp-validation-for="Student.City" class="text-danger"></span>
+            </div>
+
+            <!-- Location -->
+            <div class="form-group">
+                <label asp-for="Student.Location">Location</label>
+                <input asp-for="Student.Location" class="form-control" />
+            </div>
+
+            <!-- Details -->
+            <div class="form-group full-width">
+                <label asp-for="Student.Details">Details</label>
+                <textarea asp-for="Student.Details" class="form-control"></textarea>
+            </div>
+
+            <!-- Save Button -->
+            <button type="submit" class="btn">Save Changes</button>
+        </form>
+    </div>
+</body>
+</html>

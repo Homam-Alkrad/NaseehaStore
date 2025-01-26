@@ -1,0 +1,281 @@
+﻿@model IEnumerable<NaseehaStore.Models.Data.Order>
+@{
+    var cities = ViewBag.Cities as List<string>;
+    Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+    <link href="~/css/site3.css" rel="stylesheet" />
+    <style>
+        /* Navbar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+        }
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar .menu {
+            display: flex;
+            gap: 15px;
+        }
+
+        .navbar .menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        th a{
+            color:black;
+        }
+        @@media (max-width: 768px) {
+            .navbar .logo {
+                display: none; /* Hide logo on phone size */
+            }
+
+            .navbar .menu {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        /* Button Base Styles */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            cursor: pointer;
+            color: white;
+        }
+
+        .btn.confirm {
+            background-color: #007bff;
+        }
+
+        .btn.confirm:hover {
+            background-color: #0056b3;
+        }
+
+        .btn.confirmed {
+            background-color: #28a745;
+        }
+
+        .btn.deliver {
+            background-color: #ffc107;
+        }
+
+        .btn.deliver:hover {
+            background-color: #e0a800;
+        }
+
+        .btn.delivered {
+            background-color: #28a745;
+        }
+
+        /* Responsive Layout for Orders Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            color: black;
+            background-color: #f4f4f4;
+        }
+
+        .content-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .content-buttons a {
+            padding: 10px 15px;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .content-buttons a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">My Store</div>
+        <div class="menu">
+            <a asp-action="DeliveredOrders" asp-controller="Order">المسلمة</a>
+            <a asp-action="ShippedOrders" asp-controller="Order">المشحونة</a>
+            <a asp-action="Index" asp-controller="Courses">العروض</a>
+            <a asp-action="whatsapp" asp-controller="Order">واتس اب</a>
+        </div>
+    </nav>
+
+    <!-- Author Panel -->
+    <div class="container">
+        <div class="author-panel">
+            <!-- Search Box -->
+            <div class="search-box">
+                <input type="text" id="searchOrders" placeholder="Search by ID or Name..." />
+            </div>
+
+            <!-- Filters -->
+            <div class="filters">
+                <select id="filterName">
+                    <option value="" selected>Sort by Name</option>
+                    <option value="az">A-Z</option>
+                    <option value="za">Z-A</option>
+                </select>
+                <select id="filterLocation">
+                    <option value="" selected>Filter by Location</option>
+                    @foreach (var city in cities)
+                    {
+                        <option value="@city">@city</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>Orders</h1>
+        <table id="ordersTable">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Student Name</th>
+                    <th>City</th>
+                    <th>Location</th>
+                    <th>Details</th>
+                    <th>Price</th>
+                    <th>Is Confirmed</th>
+                    <th>Is Delivered</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="ordersBody">
+                @foreach (var order in Model)
+                {
+                    <tr>
+                        <td>@order.Id</td>
+                        <td>@order.Student?.FullName</td>
+                        <td>@order.Student?.City</td>
+                        <td>@order.Student?.Location</td>
+                        <td>@order.Student?.Details</td>
+                        <td>@order.Price JD</td>
+
+                        <td>
+                            @if (order.IsDelivered)
+                            {
+                                <a asp-controller="Order" asp-action="ConfirmOrder" asp-route-id="@order.Id" class="btn confirmed">Unconfirm</a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Order" asp-action="ConfirmOrder" asp-route-id="@order.Id" class="btn confirm">Confirm</a>
+                            }
+                        </td>
+                        <td>
+                            @if (order.IsShipped)
+                            {
+                                <a asp-controller="Order" asp-action="MarkAsDelivered" asp-route-id="@order.Id" class="btn delivered">Undeliver</a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Order" asp-action="MarkAsDelivered" asp-route-id="@order.Id" class="btn deliver">Deliver</a>
+                            }
+                        </td>
+
+                        <td class="action-links">
+                            <a asp-controller="Order" asp-action="Edit" asp-route-id="@order.Id" class="edit">✏</a>
+                            <a asp-controller="Order" asp-action="Delete" asp-route-id="@order.Id" method="post" style="display:inline;" class="delete">🗑</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+    <script>
+        // Get references to inputs and table rows
+        const searchInput = document.getElementById("searchOrders");
+        const filterName = document.getElementById("filterName");
+        const filterLocation = document.getElementById("filterLocation");
+        const ordersBody = document.getElementById("ordersBody");
+        const rows = Array.from(ordersBody.querySelectorAll("tr"));
+
+        // Function to filter and sort orders
+        function filterAndSortOrders() {
+            const searchText = searchInput.value.toLowerCase();
+            const sortOrder = filterName.value;
+            const selectedLocation = filterLocation.value;
+
+            let filteredRows = rows;
+
+            // Search by ID or Name
+            if (searchText) {
+                filteredRows = filteredRows.filter(row => {
+                    const orderId = row.cells[0].innerText.toLowerCase();
+                    const studentName = row.cells[1].innerText.toLowerCase();
+                    return orderId.includes(searchText) || studentName.includes(searchText);
+                });
+            }
+
+            // Filter by Location
+            if (selectedLocation) {
+                filteredRows = filteredRows.filter(row => {
+                    const location = row.cells[2].innerText;
+                    return location === selectedLocation;
+                });
+            }
+
+            // Sort by Name (A-Z or Z-A)
+            if (sortOrder === "az" || sortOrder === "za") {
+                filteredRows.sort((a, b) => {
+                    const nameA = a.cells[1].innerText.toLowerCase();
+                    const nameB = b.cells[1].innerText.toLowerCase();
+                    return sortOrder === "az" ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+                });
+            }
+
+            // Update table
+            ordersBody.innerHTML = "";
+            filteredRows.forEach(row => ordersBody.appendChild(row));
+        }
+
+        // Event listeners for search and filters
+        searchInput.addEventListener("input", filterAndSortOrders);
+        filterName.addEventListener("change", filterAndSortOrders);
+        filterLocation.addEventListener("change", filterAndSortOrders);
+    </script>
+</body>
+</html>

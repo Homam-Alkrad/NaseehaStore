@@ -1,0 +1,66 @@
+﻿@model IEnumerable<NaseehaStore.Models.Data.Course>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+    <link href="~/css/site2.css" rel="stylesheet" />
+    <style>
+        body {
+            position: relative; /* Ensure the body can serve as a reference for the pseudo-element */
+            margin: 0;
+            padding: 0;
+        }
+
+            body::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: url('/images/laptopsize.png'); /* Replace with your default image */
+                background-size: cover;
+                background-position: center;
+                filter: blur(8px); /* Add blur effect */
+                z-index: -1; /* Ensure it stays behind other elements */
+            }
+    </style>
+
+</head>
+<body>
+    <header class="header">
+        <h1>عروضنا مميزة لا تفوتها</h1>
+        <p>اكتشف أحدث العروض الحصرية واغتنم الفرصة الآن</p>
+    </header>
+    <!-- Main Content -->
+    <main class="main">
+        <div class="cards-container">
+            @foreach (var course in Model)
+            {
+                <div class="card">
+                    <div class="card-image">
+                        <img src="@course.ImagePath" alt="@course.CourseName">
+                    </div>
+                    <div class="card-desc">
+                        <strong>@course.CourseName</strong>
+                    </div>
+                    <div class="card-desc">
+                        @course.Description
+                    </div>
+                    <div class="card-buttons">
+                        <p>السعر : @course.Price JD</p>
+                    </div>
+                    <div class="card-buttons">
+                        <a asp-controller="Courses" asp-action="Delete" asp-route-id="@course.Id" class="btn">Delete</a>
+                        <a asp-controller="Courses" asp-action="Edit" asp-route-id="@course.Id"  class="btn secondary">Edit</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </main>
+</body>
+
+</html>

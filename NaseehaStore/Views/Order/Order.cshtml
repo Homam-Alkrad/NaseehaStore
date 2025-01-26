@@ -1,0 +1,200 @@
+﻿@model NaseehaStore.Models.ViewModels.OrderViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .order-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            word-wrap: break-word;
+        }
+
+        .course-details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .course-details p {
+            display: flex;
+            justify-content: space-between;
+            margin: 0;
+        }
+
+        .course-details p strong {
+            margin-left: auto;
+            text-align: right;
+            color: #007bff;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 20px;
+            row-gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .form-group span.text-danger {
+            color: #dc3545;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        button.btn {
+            grid-column: span 2;
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        button.btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+                word-wrap: break-word;
+                line-height: 1.2;
+            }
+
+            form {
+                grid-template-columns: 1fr;
+            }
+
+            button.btn {
+                grid-column: span 1;
+            }
+
+            .form-group {
+                margin-bottom: 5px;
+            }
+        }
+
+        .text-danger {
+            color: red;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="order-container">
+        <h1>تأكيد الطلب</h1>
+
+        <div class="course-details">
+            <p><span>Course Name:</span> <strong>@Model.CourseName</strong></p>
+            <p><span>Price:</span> <strong>@Model.Price JD</strong></p>
+        </div>
+
+        <form asp-action="OrderConfirm" method="post">
+            <input type="hidden" asp-for="CourseId" />
+            <input type="hidden" asp-for="CourseName" />
+            <input type="hidden" asp-for="Price" />
+
+            <div class="form-group">
+                <label asp-for="Student.FullName">الاسم الكامل</label>
+                <input asp-for="Student.FullName" placeholder="مثال: أحمد محمد" />
+                <span asp-validation-for="Student.FullName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Student.MainPhone">رقم الهاتف الرئيسي</label>
+                <input asp-for="Student.MainPhone" type="tel" placeholder="07...." />
+                <span asp-validation-for="Student.MainPhone" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Student.SecondPhone">رقم الهاتف الإضافي</label>
+                <input asp-for="Student.SecondPhone" type="tel" placeholder="07...." />
+                <span asp-validation-for="Student.SecondPhone" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Student.City">المدينة</label>
+                <select asp-for="Student.City">
+                    <option value="">-- اختر المدينة --</option>
+                    @foreach (var city in ViewBag.Cities as List<string>)
+                    {
+                        <option value="@city">@city</option>
+                    }
+                </select>
+                <span asp-validation-for="Student.City" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Student.Location">الموقع</label>
+                <input asp-for="Student.Location" placeholder="مثال: صويلح" />
+                <span asp-validation-for="Student.Location" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Student.Details">تفاصيل إضافية</label>
+                <textarea asp-for="Student.Details" placeholder="شارع الجامعة، مبنى A 15، شقة 5"></textarea>
+                <span asp-validation-for="Student.Details" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn">تأكيد الطلب</button>
+        </form>
+    </div>
+</body>
+</html>

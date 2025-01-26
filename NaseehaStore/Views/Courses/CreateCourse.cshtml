@@ -1,0 +1,229 @@
+﻿@model NaseehaStore.Models.Data.Course
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Course</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* Header Section */
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px 40px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+            .header h1 {
+                font-size: 2rem;
+                margin-bottom: 10px;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+        /* Container */
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Example Card Section */
+        .example-card {
+            flex: 1;
+        }
+
+            .example-card h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+        /* Card Styling */
+        .card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: auto;
+        }
+
+        .card-desc {
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .card-buttons {
+            display: flex;
+            justify-content: space-around;
+            padding: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .btn.secondary {
+                background-color: #e74c3c;
+            }
+
+            .btn:hover {
+                background-color: #0056b3;
+            }
+
+        /* Create Course Form Section */
+        .create-course {
+            flex: 1;
+        }
+
+            .create-course h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+        form {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            text-align: right; /* Align labels to the right */
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+            button[type="submit"]:hover {
+                background-color: #218838;
+            }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .example-card {
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <h1>صفحة إنشاء العروض</h1>
+        <p>قم بإنشاء دورة جديدة باستخدام النموذج أدناه، أو استعرض الدورة التجريبية على اليمين.</p>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Example Card Section -->
+        <section class="example-card">
+            <div class="card">
+                <div class="card-image">
+                    <img src="/images/laptopsize.png" alt="Example Image">
+                </div>
+                <div class="card-desc">
+                    Short description for the example course. <br />
+                    Short description for the example course. <br />
+                    Additional details go here.
+                </div>
+                <div class="card-buttons">
+                    <button class="btn">Order with Booklet</button>
+                    <button class="btn secondary">Order without Booklet</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Create Course Form Section -->
+        <section class="create-course">
+            <form asp-action="CreateCourse" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="CourseName">اسم الدورة</label>
+                    <input asp-for="CourseName" class="form-control" />
+                    <span asp-validation-for="CourseName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description">الوصف</label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price">السعر </label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImagePath">تحميل الصورة</label>
+                    <input type="file" name="ImagePath" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary">إنشاء الدورة</button>
+            </form>
+        </section>
+    </div>
+</body>
+</html>
