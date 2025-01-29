@@ -28,7 +28,7 @@ namespace NaseehaStore.Models.Data
         [Required]
         public DateTime OrderDate { get; set; }
 
-        public bool IsDelivered { get; set; }
+        public bool IsPrepared { get; set; }
         public bool IsShipped { get; set; }
 
         public bool? IsExportedToExcel { get; set; } // New nullable boolean column

@@ -79,15 +79,15 @@ namespace NaseehaStore.Controllers
 
             // تحديد رسالة الحالة بناءً على حالة الطلب
             string statusMessage;
-            if (!order.IsDelivered && !order.IsShipped)
+            if (!order.IsPrepared && !order.IsShipped)
             {
                 statusMessage = "يرجى العلم بأننا قد تلقينا طلبك وهو الآن قيد التجهيز";
             }
-            else if (order.IsDelivered && !order.IsShipped)
+            else if (order.IsPrepared && !order.IsShipped)
             {
                 statusMessage = "تم تجهيز طلبك وسنقوم بشحنه إليك في أقرب وقت ممكن";
             }
-            else if (order.IsDelivered && order.IsShipped)
+            else if (order.IsPrepared && order.IsShipped)
             {
                 statusMessage = "تم تجهيز طلبك وشحنه وهو في طريقه إليك مع مندوب التوصيل";
             }

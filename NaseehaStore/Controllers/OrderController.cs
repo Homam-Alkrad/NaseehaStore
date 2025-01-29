@@ -92,7 +92,7 @@ namespace NaseehaStore.Controllers
                 StudentId = model.Student.Id,
                 Price = model.Price,
                 OrderDate = DateTime.Now,
-                IsDelivered = false,
+                IsPrepared = false,
                 IsShipped = false
             };
 
@@ -161,11 +161,40 @@ namespace NaseehaStore.Controllers
                 Student = order.Student
             };
 
+            // Reverse: Replace "962" with "07" for MainPhone and SecondPhone
+            if (!string.IsNullOrEmpty(viewModel.Student.MainPhone) && viewModel.Student.MainPhone.StartsWith("962"))
+            {
+                viewModel.Student.MainPhone = "0" + viewModel.Student.MainPhone.Substring(3);
+            }
+
+            if (!string.IsNullOrEmpty(viewModel.Student.SecondPhone) && viewModel.Student.SecondPhone.StartsWith("962"))
+            {
+                viewModel.Student.SecondPhone = "0" + viewModel.Student.SecondPhone.Substring(3);
+            }
+
             return View(viewModel);
         }
         [HttpPost]
         public IActionResult Edit(EditOrderViewModel model)
         {
+            // List of cities in Jordan
+            var cities = new List<string>
+            {
+                "عمّان", "إربد", "الزرقاء", "المفرق", "عجلون", "جرش", "مادبا", "البلقاء", "الكرك", "الطفيلة", "معان", "العقبة"
+            };
+
+            // Pass orders and cities to the view
+            ViewBag.Cities = cities;
+            // Prepend 962 to phone numbers
+            if (!string.IsNullOrEmpty(model.Student.MainPhone) && model.Student.MainPhone.StartsWith("07"))
+            {
+                model.Student.MainPhone = "962" + model.Student.MainPhone.Substring(1);
+            }
+
+            if (!string.IsNullOrEmpty(model.Student.SecondPhone) && model.Student.SecondPhone.StartsWith("07"))
+            {
+                model.Student.SecondPhone = "962" + model.Student.SecondPhone.Substring(1);
+            }
             if (!ModelState.IsValid)
             {
                 return View(model); // Return to the form if validation fails
@@ -191,7 +220,7 @@ namespace NaseehaStore.Controllers
 
             _context.SaveChanges();
 
-            return RedirectToAction("Index"); // Redirect to orders list
+            return RedirectToAction("Index","Dashboard"); // Redirect to orders list
         }
         [HttpGet]
         public IActionResult Delete(int id)
@@ -233,109 +262,7 @@ namespace NaseehaStore.Controllers
 
             return RedirectToAction("Index", "Dashboard"); // Redirect to orders list
         }
-        public IActionResult ConfirmOrder(int id)
-        {
-            var order = _context.Orders.Find(id);
-            if (order == null)
-            {
-                return NotFound("Order not found.");
-            }
 
-            // Toggle the IsDelivered state
-            order.IsDelivered = !order.IsDelivered;
-            _context.SaveChanges();
-
-            return RedirectToAction("Index", "Dashboard");
-        }
-        public IActionResult MarkAsDelivered(int id)
-        {
-            var order = _context.Orders.Find(id);
-            if (order == null)
-            {
-                return NotFound("Order not found.");
-            }
-
-            // Toggle the IsShipped state
-            order.IsShipped = !order.IsShipped;
-            _context.SaveChanges();
-
-            return RedirectToAction("Index", "Dashboard");
-        }
-        public IActionResult ConfirmedOrders()
-        {
-            // Fetch only confirmed orders that have not been exported to Excel
-            var confirmedOrders = _context.Orders
-                .Include(o => o.Student)
-                .Where(o => o.IsDelivered && (o.IsExportedToExcel == false || o.IsExportedToExcel == null))
-                .ToList();
-
-            return View(confirmedOrders); // Reuse the Index view for displaying orders
-        }
-
-        public IActionResult DeliveredOrders()
-        {
-            // Fetch only delivered orders that have not been exported to Excel
-            var deliveredOrders = _context.Orders
-                .Include(o => o.Student)
-                .Where(o => o.IsShipped && (o.IsExportedToExcel == false || o.IsExportedToExcel == null))
-                .ToList();
-
-            return View(deliveredOrders); // Reuse the Index view for displaying orders
-        }
-
-        [HttpPost]
-        public FileResult ExportToExcel()
-        {
-            // Fetch data for orders that haven't been exported to Excel
-            var orders = _context.Orders
-                .Include(o => o.Student)
-                .Where(o => o.IsDelivered && (o.IsExportedToExcel == null || o.IsExportedToExcel == false))
-                .Select(o => new
-                {
-                    o.Id,
-                    StudentName = o.Student.FullName,
-                    o.Student.Location,
-                    o.Price,
-                    OrderDate = o.OrderDate.ToString("yyyy-MM-dd")
-                })
-                .ToList();
-
-            // Create a DataTable for Excel export
-            DataTable dt = new DataTable("DeliveredOrders");
-            dt.Columns.AddRange(new DataColumn[]
-            {
-        new DataColumn("Order ID"),
-        new DataColumn("Student Name"),
-        new DataColumn("Location"),
-        new DataColumn("Price"),
-        new DataColumn("Order Date")
-            });
-
-            foreach (var order in orders)
-            {
-                dt.Rows.Add(order.Id, order.StudentName, order.Location, order.Price, order.OrderDate);
-            }
-
-            // Mark orders as exported
-            var exportedOrderIds = orders.Select(o => o.Id).ToList();
-            var exportedOrders = _context.Orders.Where(o => exportedOrderIds.Contains(o.Id)).ToList();
-            foreach (var order in exportedOrders)
-            {
-                order.IsExportedToExcel = true;
-            }
-            _context.SaveChanges();
-
-            // Generate Excel file
-            using (var wb = new XLWorkbook())
-            {
-                wb.Worksheets.Add(dt);
-                using (var stream = new MemoryStream())
-                {
-                    wb.SaveAs(stream);
-                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DeliveredOrders.xlsx");
-                }
-            }
-        }
 
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NaseehaStore.Models.Data;
 
@@ -11,9 +12,11 @@ using NaseehaStore.Models.Data;
 namespace NaseehaStore.Migrations
 {
     [DbContext(typeof(NaseehaStoreContext))]
-    partial class NaseehaStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20250129071827_migrations9")]
+    partial class migrations9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
