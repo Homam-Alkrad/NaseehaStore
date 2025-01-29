@@ -1,8 +1,8 @@
 ﻿@{
-    ViewBag.Title = "Order Success";
+    ViewBag.Title = "نجاح الطلب";
 }
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +22,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
+            text-align: right;
             min-height: 100vh;
             padding: 20px;
         }
@@ -71,6 +71,7 @@
                 width: 100%;
                 margin-bottom: 2rem;
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                text-align: right;
             }
 
                 .order-success-container .order-details p {
@@ -87,16 +88,17 @@
 </head>
 <body>
     <div class="order-success-container">
-        <h1>Thank You for Your Order!</h1>
-        <p>Your order has been successfully placed.</p>
+        <h1>شكرًا على طلبك!</h1>
+        <p>تم تقديم طلبك بنجاح.</p>
 
         <div class="order-details">
-            <p>Order Number: <span>@ViewBag.OrderNumber</span></p>
-            <p>Course Name: <span>@ViewBag.CourseName</span></p>
-            <p>Total Price: <span>@ViewBag.TotalPrice دينار</span></p>
+            <p>رقم الطلب: <span>@ViewBag.OrderNumber</span></p>
+            <p>اسم الدورة: <span>@ViewBag.CourseName</span></p>
+            <p>وصف الدورة: <span style="font-size:10px;">@ViewBag.CourseDescription</span></p>
+            <p>إجمالي السعر: <span>@ViewBag.TotalPrice دينار</span></p>
         </div>
 
-        <a href="/Home/Shop" class="btn">Back to Shop</a>
+        <a href="/Home/Shop" class="btn">العودة إلى المتجر</a>
     </div>
 </body>
 </html>

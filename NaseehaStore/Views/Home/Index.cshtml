@@ -4,57 +4,111 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome</title>
-	<link href="~/css/site.css" rel="stylesheet" />
     <style>
+        /* General Reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Fallback background color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden; /* Prevent scrollbars if content is centered */
+        }
+
+        /* Background Image on Body */
+        body {
+            background-image: url('/images/LaptopSize.png'); /* Default background */
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.3s ease-in-out, filter 0.3s ease-in-out;
+        }
+
+        /* Responsive Background Images */
+        @@media (max-width: 576px) { /* Small phones */
+            body {
+                background-image: url('/images/PhoneSize.png');
+            }
+        }
+
+        @@media (min-width: 577px) and (max-width: 768px) { /* Large phones */
+            body {
+                background-image: url('/images/LargePhone.png');
+            }
+        }
+
+        @@media (min-width: 769px) and (max-width: 1024px) { /* Tablets */
+            body {
+                background-image: url('/images/IPadSize.png');
+            }
+        }
+
+        @@media (min-width: 1025px) { /* Laptops and larger screens */
+            body {
+                background-image: url('/images/LaptopSize.png');
+            }
+        }
+
         /* Order Section */
         .order-section {
-            margin: 30px 20px;
             padding: 20px;
             background-color: #007bff;
             color: white;
             border-radius: 10px;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: relative; /* Stays above the blurred background */
             z-index: 1;
             width: 90%; /* Default width */
             max-width: 500px; /* Limit width for larger screens */
             box-sizing: border-box; /* Include padding in width calculations */
         }
 
-            .order-section p {
-                font-size: 1.2rem;
-                margin-bottom: 15px;
-                line-height: 1.5; /* Better readability */
-            }
+        .order-section p {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            line-height: 1.5; /* Better readability */
+        }
 
-            .order-section a.order-now {
-                display: inline-block;
-                padding: 10px 20px;
-                font-size: 1rem;
-                background-color: #ffdd57;
-                color: #333;
-                border-radius: 5px;
-                transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s;
-                text-decoration: none;
-                font-weight: bold;
-                text-transform: uppercase;
-            }
+        .order-section a.order-now {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #ffdd57;
+            color: #333;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
 
-                .order-section a.order-now:hover {
-                    background-color: #ffc107;
-                    color: #222;
-                    transform: scale(1.05); /* Add a slight zoom on hover */
-                }
+        .order-section a.order-now:hover {
+            background-color: #ffc107;
+            transform: scale(1.05);
+        }
+
+        center a {
+            display: none;
+        }
 
     </style>
 </head>
 <body>
-    <div class="welcome-screen"></div>
-    <div class="order-section">
-        <p>هذا الموقع مخصص لطلب البطاقات والدوسيات، بالإضافة إلى عرض تفاصيل العروض المتاحة.</p>
-        <a class="order-now" asp-action="Shop" asp-controller="Home" style="text-decoration:none;">اطلب الآن</a>
+    <div style="display: flex; flex-direction: column; justify-content: space-evenly;">
+        <!-- Order Section -->
+        <div class="order-section">
+            <p>هذا الموقع مخصص لطلب البطاقات والدوسيات، بالإضافة إلى عرض تفاصيل العروض المتاحة.</p>
+            <a class="order-now" asp-action="Shop" asp-controller="Home" style="display: block; margin-bottom: 15px;">اطلب الآن</a>
+            <a class="login-admin" asp-action="Login" asp-controller="Account" style="display: block; margin-top: 15px; color: white;">تسجيل الدخول (للادمن فقط)</a>
+        </div>
+        <div class="order-section" style="margin-top:50px;">
+            <a class="order-now" class="login-admin" asp-action="Search" asp-controller="Home">الاسعلام عن طلبي</a>
+        </div>
     </div>
-    <script src="script.js"></script>
+
 </body>
 </html>

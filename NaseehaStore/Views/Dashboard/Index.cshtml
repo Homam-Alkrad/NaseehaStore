@@ -125,6 +125,11 @@
         .content-buttons a:hover {
             background-color: #0056b3;
         }
+
+        center a {
+            display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -133,7 +138,7 @@
         <div class="logo">My Store</div>
         <div class="menu">
             <a asp-action="DeliveredOrders" asp-controller="Order">المسلمة</a>
-            <a asp-action="ShippedOrders" asp-controller="Order">المشحونة</a>
+            <a asp-action="ConfirmedOrders" asp-controller="Order">المشحونة</a>
             <a asp-action="Index" asp-controller="Courses">العروض</a>
             <a asp-action="whatsapp" asp-controller="Order">واتس اب</a>
         </div>

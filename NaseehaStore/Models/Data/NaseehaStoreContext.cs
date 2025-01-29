@@ -20,15 +20,13 @@ namespace NaseehaStore.Models.Data
             // Configure Course entity to have a primary key (Id)
             modelBuilder.Entity<Course>().HasKey(c => c.Id);
 
-            // Seed default Admin data
-            modelBuilder.Entity<Admin>().HasData(
-                new Admin
-                {
-                    Id = 1,
-                    Email = "admin@naseeha.com",
-                    Password = "Admin@123" // Plaintext password for testing only
-                }
-            );
+            // Seed initial admin user
+            modelBuilder.Entity<Admin>().HasData(new Admin
+            {
+                Id = 1,
+                Email = "admin@naseeha.com",
+                Password = "Admin@123"
+            });
         }
     }
 }

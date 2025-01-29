@@ -12,8 +12,8 @@ using NaseehaStore.Models.Data;
 namespace NaseehaStore.Migrations
 {
     [DbContext(typeof(NaseehaStoreContext))]
-    [Migration("20250126121928_migrations")]
-    partial class migrations
+    [Migration("20250129061035_migrations10")]
+    partial class migrations10
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,6 +98,9 @@ namespace NaseehaStore.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDelivered")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsExportedToExcel")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsShipped")

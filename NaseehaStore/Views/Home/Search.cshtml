@@ -1,0 +1,122 @@
+﻿@model NaseehaStore.Models.ViewModels.SearchViewModel
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الاستعلام عن طلبي</title>
+    <style>
+        /* إعادة تعيين عامة */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* صورة الخلفية */
+        body {
+            background-image: url('/images/LaptopSize.png');
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.3s ease-in-out;
+        }
+
+        /* خلفيات متجاوبة */
+        @@media (max-width: 576px) { body { background-image: url('/images/PhoneSize.png'); } }
+        @@media (min-width: 577px) and (max-width: 768px) { body { background-image: url('/images/LargePhone.png'); } }
+        @@media (min-width: 769px) and (max-width: 1024px) { body { background-image: url('/images/IPadSize.png'); } }
+        @@media (min-width: 1025px) { body { background-image: url('/images/LaptopSize.png'); } }
+
+        /* قسم البحث */
+        .search-section {
+            padding: 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            width: 95%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-radius: 5px;
+            padding: 5px;
+            gap: 10px;
+        }
+
+        .search-input {
+            border: none;
+            padding: 10px;
+            flex-grow: 1;
+            font-size: 1rem;
+            text-align: right;
+        }
+
+        .search-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #ffdd57;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .search-button:hover {
+            background-color: #ffc107;
+        }
+
+        /* تنسيق رسائل الخطأ */
+        .validation-summary {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        .validation-message {
+            color: #ff0000;
+            font-size: 0.9rem;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="search-section">
+        <p>الاستعلام عن طلبي</p>
+        <!-- عرض ملخص التحقق من الصحة -->
+        <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+        <form asp-action="Search" method="post">
+            <div class="search-container">
+                <input asp-for="OrderId" class="search-input" placeholder="رقم الطلب..." style="width:35%;" required>
+                <input asp-for="PhoneNumber" class="search-input" placeholder="رقم الهاتف..." style="width:65%;" required>
+                <button type="submit" class="search-button">بحث</button>
+            </div>
+            <!-- عرض رسائل التحقق الفردية -->
+            <span asp-validation-for="OrderId" class="validation-message"></span>
+            <span asp-validation-for="PhoneNumber" class="validation-message"></span>
+        </form>
+    </div>
+</body>
+</html>

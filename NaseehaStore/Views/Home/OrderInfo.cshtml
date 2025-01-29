@@ -1,0 +1,118 @@
+﻿@model NaseehaStore.Models.ViewModels.OrderInfoViewModel
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معلومات الطلب</title>
+    <style>
+        /* General Reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Fallback background color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden; /* Prevent scrollbars if content is centered */
+        }
+
+        /* Background Image on Body */
+        body {
+            background-image: url('/images/LaptopSize.png'); /* Default background */
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.3s ease-in-out, filter 0.3s ease-in-out;
+        }
+
+        /* Responsive Background Images */
+        @@media (max-width: 576px) { /* Small phones */
+            body {
+                background-image: url('/images/PhoneSize.png');
+            }
+        }
+
+        @@media (min-width: 577px) and (max-width: 768px) { /* Large phones */
+            body {
+                background-image: url('/images/LargePhone.png');
+            }
+        }
+
+        @@media (min-width: 769px) and (max-width: 1024px) { /* Tablets */
+            body {
+                background-image: url('/images/IPadSize.png');
+            }
+        }
+
+        @@media (min-width: 1025px) { /* Laptops and larger screens */
+            body {
+                background-image: url('/images/LaptopSize.png');
+            }
+        }
+        .order-info {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            box-sizing: border-box;
+            text-align: right;
+        }
+
+            .order-info h2 {
+                margin-top: 0;
+                color: #333;
+            }
+
+            .order-info p {
+                margin: 10px 0;
+                color: #555;
+            }
+
+            .order-info .status {
+                /* Responsive font size: minimum 16px, preferred 2.5vw, maximum 24px */
+                font-size: clamp(16px, 2.5vw, 24px);
+                font-weight: bold;
+                padding: 15px;
+                border-radius: 8px;
+                margin-top: 20px;
+                text-align: center;
+                color: #fff; /* Default text color */
+                border:1px solid red; 
+            }
+
+                /* Example status-specific styles */
+                .order-info .status.pending {
+                    background-color: #ffc107; /* Amber for pending */
+                }
+
+                .order-info .status.processed {
+                    background-color: #17a2b8; /* Teal for processed */
+                }
+
+                .order-info .status.shipped {
+                    background-color: #28a745; /* Green for shipped */
+                }
+
+    </style>
+</head>
+<body>
+    <div class="order-info">
+        <h2>معلومات الطلب</h2>
+        <p><strong>رقم الطلب:</strong> @Model.OrderId</p>
+        <p><strong>اسم الطالب:</strong> @Model.StudentName</p>
+        <p><strong>الموقع:</strong> @Model.Location</p>
+        <p><strong>تفاصيل الدورة:</strong> @Model.Details</p>
+        <p><strong>السعر:</strong> @Model.Price دينار</p>
+        <div class="status">
+            <p>@Model.OrderStatusMessage</p>
+        </div>
+    </div>
+</body>
+</html>

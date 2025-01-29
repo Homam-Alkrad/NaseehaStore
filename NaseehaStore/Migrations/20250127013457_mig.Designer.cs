@@ -12,8 +12,8 @@ using NaseehaStore.Models.Data;
 namespace NaseehaStore.Migrations
 {
     [DbContext(typeof(NaseehaStoreContext))]
-    [Migration("20250126121928_migrations")]
-    partial class migrations
+    [Migration("20250127013457_mig")]
+    partial class mig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

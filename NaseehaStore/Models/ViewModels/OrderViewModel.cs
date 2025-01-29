@@ -8,6 +8,7 @@ namespace NaseehaStore.Models.ViewModels
         public int CourseId { get; set; }
 
         public string CourseName { get; set; }
+        public string? CourseDescription { get; set; }
 
         [Required(ErrorMessage = "السعر مطلوب.")]
         [Range(0.1, double.MaxValue, ErrorMessage = "يجب أن يكون السعر أكبر من 0.")]

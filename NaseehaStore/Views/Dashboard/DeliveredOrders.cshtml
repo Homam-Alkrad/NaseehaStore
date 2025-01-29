@@ -87,6 +87,11 @@
             table td {
                 vertical-align: middle;
             }
+
+        center a {
+            display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -99,9 +104,11 @@
             <a href="/orders">Orders</a>
         </div>
     </nav>
-
     <div class="container">
         <h1>Delivered Orders</h1>
+        <form action="@Url.Action("ExportToExcel", "Orders")" method="post">
+            <button type="submit" class="btn btn-primary">Download as Excel</button>
+        </form>
         <table>
             <thead>
                 <tr>

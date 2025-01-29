@@ -97,6 +97,9 @@ namespace NaseehaStore.Migrations
                     b.Property<bool>("IsDelivered")
                         .HasColumnType("bit");
 
+                    b.Property<bool?>("IsExportedToExcel")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsShipped")
                         .HasColumnType("bit");
 

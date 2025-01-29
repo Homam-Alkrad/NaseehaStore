@@ -13,13 +13,13 @@ namespace NaseehaStore.Models.Data
         public int CourseId { get; set; }
 
         [ForeignKey("CourseId")]
-        public Course Course { get; set; } 
+        public Course Course { get; set; }
 
         [Required]
         public int StudentId { get; set; }
 
         [ForeignKey("StudentId")]
-        public Student Student { get; set; } 
+        public Student Student { get; set; }
 
         [Required]
         [DataType(DataType.Currency)]
@@ -30,5 +30,7 @@ namespace NaseehaStore.Models.Data
 
         public bool IsDelivered { get; set; }
         public bool IsShipped { get; set; }
+
+        public bool? IsExportedToExcel { get; set; } // New nullable boolean column
     }
 }

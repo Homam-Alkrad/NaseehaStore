@@ -1,4 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using NaseehaStore.Models.Data;
 
 namespace NaseehaStore.Models.Data
 {

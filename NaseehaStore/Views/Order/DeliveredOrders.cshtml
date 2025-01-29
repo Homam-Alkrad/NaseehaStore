@@ -9,7 +9,6 @@
     <link href="~/css/site3.css" rel="stylesheet" />
 </head>
 <body>
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="logo">My Store</div>
         <div class="menu">
@@ -19,40 +18,30 @@
             <a href="/orders">Orders</a>
         </div>
     </nav>
-
-    <!-- Main Content -->
     <div class="container">
-        <h1>Orders</h1>
-        <table id="ordersTable">
+        <h1>Delivered Orders</h1>
+        <form action="@Url.Action("ExportToExcel", "Order")" method="post">
+            <button type="submit" class="btn btn-primary">Download as Excel</button>
+        </form>
+        <table>
             <thead>
                 <tr>
                     <th>Order ID</th>
                     <th>Student Name</th>
-                    <th>City</th>
                     <th>Location</th>
-                    <th>Details</th>
                     <th>Price</th>
-                    <th>Is Confirmed</th>
-                    <th>Is Delivered</th>
-                    <th>Actions</th>
+                    <th>Order Date</th>
                 </tr>
             </thead>
-            <tbody id="ordersBody">
+            <tbody>
                 @foreach (var order in Model)
                 {
                     <tr>
                         <td>@order.Id</td>
                         <td>@order.Student?.FullName</td>
-                        <td>@order.Student?.City</td>
                         <td>@order.Student?.Location</td>
-                        <td>@order.Student?.Details</td>
                         <td>@order.Price JD</td>
-                        <td>@(order.IsDelivered ? "Confirmed" : "Not Confirmed")</td>
-                        <td>@(order.IsShipped ? "Delivered" : "Not Delivered")</td>
-                        <td class="action-links">
-                            <a asp-controller="Order" asp-action="Edit" asp-route-id="@order.Id" class="edit">✏</a>
-                            <a asp-controller="Order" asp-action="Delete" asp-route-id="@order.Id" method="post" style="display:inline;" class="delete">🗑</a>
-                        </td>
+                        <td>@order.OrderDate.ToShortDateString()</td>
                     </tr>
                 }
             </tbody>

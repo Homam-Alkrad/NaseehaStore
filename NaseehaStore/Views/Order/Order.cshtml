@@ -142,8 +142,9 @@
         <h1>تأكيد الطلب</h1>
 
         <div class="course-details">
-            <p><span>Course Name:</span> <strong>@Model.CourseName</strong></p>
-            <p><span>Price:</span> <strong>@Model.Price JD</strong></p>
+            <p><span>العرض   </span> <strong>@Model.CourseName</strong></p>
+            <p><span>السعر  </span> <strong>@Model.Price JD</strong></p>
+            <p><span style="margin-right:5px;">الوصف  </span> <strong style="font-size:12px;">@Model.CourseDescription</strong></p>
         </div>
 
         <form asp-action="OrderConfirm" method="post">

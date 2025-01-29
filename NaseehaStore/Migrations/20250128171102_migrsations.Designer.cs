@@ -12,8 +12,8 @@ using NaseehaStore.Models.Data;
 namespace NaseehaStore.Migrations
 {
     [DbContext(typeof(NaseehaStoreContext))]
-    [Migration("20250126121928_migrations")]
-    partial class migrations
+    [Migration("20250128171102_migrsations")]
+    partial class migrsations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,7 +51,7 @@ namespace NaseehaStore.Migrations
                         new
                         {
                             Id = 1,
-                            Email = "admin@naseeha.com",
+                            Email = "admin@gmail.com",
                             Password = "Admin@123"
                         });
                 });
@@ -98,6 +98,9 @@ namespace NaseehaStore.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDelivered")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsExportedToExcel")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsShipped")
